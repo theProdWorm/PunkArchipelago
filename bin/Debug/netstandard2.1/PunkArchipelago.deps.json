@@ -9,14 +9,30 @@
     ".NETStandard,Version=v2.1/": {
       "PunkArchipelago/1.0.0": {
         "dependencies": {
+          "Archipelago.MultiClient.Net": "6.7.1",
           "BepInEx.Analyzers": "1.0.8",
           "BepInEx.PluginInfoProps": "2.1.0",
           "BepInEx.Unity.Mono": "6.0.0-be.788",
           "UnityEngine.Modules": "6000.3.4",
-          "Punk.Main": "0.0.0.0"
+          "MyBox": "0.0.0.0",
+          "Punk.Main": "0.0.0.0",
+          "Unity.TextMeshPro": "0.0.0.0",
+          "UnityEngine.UI": "1.0.0.0"
         },
         "runtime": {
           "PunkArchipelago.dll": {}
+        }
+      },
+      "Archipelago.MultiClient.Net/6.7.1": {
+        "runtime": {
+          "lib/netstandard2.0/Archipelago.MultiClient.Net.dll": {
+            "assemblyVersion": "6.7.1.0",
+            "fileVersion": "6.7.1.0"
+          },
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.1.0"
+          }
         }
       },
       "BepInEx.Analyzers/1.0.8": {},
@@ -265,11 +281,35 @@
       "Unity.InputSystem/1.5.0": {},
       "UnityEngine/5.6.1": {},
       "UnityEngine.Modules/6000.3.4": {},
+      "MyBox/0.0.0.0": {
+        "runtime": {
+          "MyBox.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "Punk.Main/0.0.0.0": {
         "runtime": {
           "Punk.Main.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "Unity.TextMeshPro/0.0.0.0": {
+        "runtime": {
+          "Unity.TextMeshPro.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.UI/1.0.0.0": {
+        "runtime": {
+          "UnityEngine.UI.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       }
@@ -280,6 +320,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Archipelago.MultiClient.Net/6.7.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-wheDMl5C0e175RvuY+E3oDY13myaa7f2pRRjOg9PgcbOJApVu3QT62mQ46jYJ0sn/X7Fu4bdVVxZ2bx0vwncBQ==",
+      "path": "archipelago.multiclient.net/6.7.1",
+      "hashPath": "archipelago.multiclient.net.6.7.1.nupkg.sha512"
     },
     "BepInEx.Analyzers/1.0.8": {
       "type": "package",
@@ -568,7 +615,22 @@
       "path": "unityengine.modules/6000.3.4",
       "hashPath": "unityengine.modules.6000.3.4.nupkg.sha512"
     },
+    "MyBox/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Punk.Main/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Unity.TextMeshPro/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.UI/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
