@@ -23,61 +23,64 @@ public class LootDropper_Awake
     
     private static void Prefix(LootDropper __instance)
     {
-        string message = $"LootDropper \"{__instance.name}\" drops:\n";
-        for (int i = 0; i < __instance.dropTable.items.Count; i++)
+        if (false)
         {
-            var dropTableItem = __instance.dropTable.items[i];
-
-            if (_countSource(ref dropTableItem) == DropTableItemCountSource.MinMax)
+            string message = $"LootDropper \"{__instance.name}\" drops:\n";
+            for (int i = 0; i < __instance.dropTable.items.Count; i++)
             {
-                int min = _count(ref dropTableItem).Min;
-                int max = _count(ref dropTableItem).Max;
-                
-                if (_useGroup(ref dropTableItem))
+                var dropTableItem = __instance.dropTable.items[i];
+
+                if (_countSource(ref dropTableItem) == DropTableItemCountSource.MinMax)
                 {
-                    var groupItems = string.Join(", ", _group(ref dropTableItem).itemDistribution.Items
-                        .Select(x => x as DistributionItem<DroppabbleItem>)
-                        .Select(x => x.Value)
-                        .Select(x => GetItemName(ref x)));
-                    
-                    message += $"  {min}-{max} items among: {groupItems}";
+                    int min = _count(ref dropTableItem).Min;
+                    int max = _count(ref dropTableItem).Max;
+
+                    if (_useGroup(ref dropTableItem))
+                    {
+                        var groupItems = string.Join(", ", _group(ref dropTableItem).itemDistribution.Items
+                            .Select(x => x as DistributionItem<DroppabbleItem>)
+                            .Select(x => x.Value)
+                            .Select(x => GetItemName(ref x)));
+
+                        message += $"  {min}-{max} items among: {groupItems}";
+                    }
+                    else
+                    {
+                        message += $"  {min}-{max} {GetItemName(ref _item(ref dropTableItem))}";
+                    }
                 }
-                else
+                else if (_countSource(ref dropTableItem) == DropTableItemCountSource.Probability)
                 {
-                    message += $"  {min}-{max} {GetItemName(ref _item(ref dropTableItem))}";
+                    float chance = _probability(ref dropTableItem) * 100;
+
+                    if (_useGroup(ref dropTableItem))
+                    {
+                        var groupItems = string.Join(", ", _group(ref dropTableItem).itemDistribution.Items
+                            .Select(x => x as DistributionItem<DroppabbleItem>)
+                            .Select(x => x.Value)
+                            .Select(x => GetItemName(ref x)));
+
+                        message += $"  One of {groupItems} with a {chance}% chance";
+                    }
+                    else
+                    {
+                        message += $"  {GetItemName(ref _item(ref dropTableItem))} with a {chance}% chance";
+                    }
                 }
+
+                message += "\n";
             }
-            else if (_countSource(ref dropTableItem) == DropTableItemCountSource.Probability)
+
+            message = message.Trim();
+            string[] lines = message.Split('\n').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+            for (int i = 1; i < lines.Length; i++)
             {
-                float chance = _probability(ref dropTableItem) * 100;
-                
-                if (_useGroup(ref dropTableItem))
-                {
-                    var groupItems = string.Join(", ", _group(ref dropTableItem).itemDistribution.Items
-                        .Select(x => x as DistributionItem<DroppabbleItem>)
-                        .Select(x => x.Value)
-                        .Select(x => GetItemName(ref x)));
-                    
-                    message += $"  One of {groupItems} with a {chance}% chance";
-                }
-                else
-                {
-                    message += $"  {GetItemName(ref _item(ref dropTableItem))} with a {chance}% chance";
-                }
+                if (lines[i].Contains("Resource") || lines[i].Contains("Corpse"))
+                    continue;
+
+                Plugin.LOGGER.LogInfo(message);
+                break;
             }
-
-            message += "\n";
-        }
-
-        message = message.Trim();
-        string[] lines = message.Split('\n').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-        for (int i = 1; i < lines.Length; i++)
-        {
-            if (lines[i].Contains("Resource") || lines[i].Contains("Corpse"))
-                continue;
-            
-            ArchipelagoPlugin.Logger.LogInfo(message);
-            break;
         }
     }
 

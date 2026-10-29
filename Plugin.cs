@@ -1,8 +1,10 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.Mono;
 using HarmonyLib;
+using PunkArchipelago.Archipelago;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,9 +17,9 @@ namespace PunkArchipelago;
 [BepInProcess("Punk.exe")]
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [DefaultExecutionOrder(-1000)]
-public class ArchipelagoPlugin : BaseUnityPlugin
+public class Plugin : BaseUnityPlugin
 {
-    internal new static ManualLogSource Logger;
+    internal static ManualLogSource LOGGER;
     
     private TMP_InputField[] _inputFields;
     private int _inputFieldIndex;
@@ -41,8 +43,8 @@ public class ArchipelagoPlugin : BaseUnityPlugin
     private void Awake()
     {
         // Plugin startup logic
-        Logger = base.Logger;
-        Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+        LOGGER = base.Logger;
+        LOGGER.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
         
         SceneManager.sceneLoaded += (scene, _) =>
         {
@@ -57,6 +59,28 @@ public class ArchipelagoPlugin : BaseUnityPlugin
     private void Update()
     {
         TabToNextField();
+
+        if (!Input.GetKeyDown(KeyCode.G))
+            return;
+        
+        var objects = FindObjectsByType<Object>(FindObjectsSortMode.None)
+            .Where(obj => obj is DamagableResource)
+            .Cast<DamagableResource>()
+            .ToDictionary(
+                obj => obj, 
+                obj => obj.gameObject.GetComponents<Object>().Select(c => c.GetType().Name));
+
+        foreach (var obj in objects)
+        {
+            string objName = obj.Key.name;
+            var components = obj.Value;
+            
+            string objString = $"{objName} has components:\n" + string.Join("\n", components);
+            LOGGER.LogInfo(objString);
+        }
+        //
+        // string objString = "All damageable objects:\n" + string.Join("\n", objects);
+        // LOGGER.LogInfo(objString);
     }
     
     private void TabToNextField()
@@ -100,15 +124,21 @@ public class ArchipelagoPlugin : BaseUnityPlugin
             });
         }
 
-        _inputFields[0].onValueChanged.AddListener(text => ArchipelagoConnection.HOST = text);
-        _inputFields[1].onValueChanged.AddListener(text => ArchipelagoConnection.PORT = text);
-        _inputFields[2].onValueChanged.AddListener(text => ArchipelagoConnection.SLOT = text);
-        _inputFields[3].onValueChanged.AddListener(text => ArchipelagoConnection.PASS = text);
+        _inputFields[0].onValueChanged.AddListener(text => ConnectionHandler.HOST = text);
+        _inputFields[1].onValueChanged.AddListener(text => ConnectionHandler.PORT = text);
+        _inputFields[2].onValueChanged.AddListener(text => ConnectionHandler.SLOT = text);
+        _inputFields[3].onValueChanged.AddListener(text => ConnectionHandler.PASS = text);
 
         var deathLinkToggle = interactables.Find("Toggle").GetComponent<Toggle>();
-        deathLinkToggle.onValueChanged.AddListener(on => ArchipelagoConnection.DEATH_LINK = on);
+        deathLinkToggle.onValueChanged.AddListener(isOn => ConnectionHandler.DEATH_LINK = isOn);
+        
+        ConnectionHandler.HOST = _inputFields[0].text;
+        ConnectionHandler.PORT = _inputFields[1].text;
+        ConnectionHandler.SLOT = _inputFields[2].text;
+        ConnectionHandler.PASS = _inputFields[3].text;
+        ConnectionHandler.DEATH_LINK = deathLinkToggle.isOn;
 
         var button = interactables.Find("Connect Button").GetComponent<Button>();
-        button.onClick.AddListener(async () => await ArchipelagoConnection.TryConnect());
+        button.onClick.AddListener(async () => await ConnectionHandler.TryConnect());
     }
 }

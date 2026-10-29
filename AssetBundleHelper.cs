@@ -18,7 +18,7 @@ public static class AssetBundleHelper
         
         if (!bundle)
         {
-            ArchipelagoPlugin.Logger.LogError($"Failed to load asset bundle {bundleName}");
+            Plugin.LOGGER.LogError($"Failed to load asset bundle {bundleName}");
             return null;
         }
         
