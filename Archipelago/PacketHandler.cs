@@ -13,14 +13,12 @@ public static class PacketHandler
     {
         _SESSION = session;
     
-        
-        
         _SESSION.Socket.PacketReceived += PacketReceived;
     }
 
-    private static void SendLootCachePacket()
+    public static void SendPacket(ArchipelagoPacketBase packet)
     {
-        
+        _SESSION.Socket.SendPacket(packet);
     }
 
     private static void PacketReceived(ArchipelagoPacketBase packet)
@@ -35,6 +33,6 @@ public static class PacketHandler
 
     private static void OnReceivedItems(ReceivedItemsPacket packet)
     {
-        
+        Plugin.LOGGER.LogInfo($"Received items packet");
     }
 }

@@ -20,25 +20,27 @@ public static class Options
     public static int SMALL_ENCOUNTERS;
     public static int ADVANCED_ENCOUNTERS;
     public static int FINAL_BOSSES;
+
+    // public static bool ENCOUNTERS_UNLOCK_SHOP_ITEMS;
+    // public static int SMALL_ENCOUNTER_SHOP_UNLOCKS;
+    // public static int ADVANCED_ENCOUNTER_SHOP_UNLOCKS;
+    // public static int FINAL_BOSS_SHOP_UNLOCKS;
     
-    public static int SMALL_ENCOUNTER_SHOP_UNLOCKS;
-    public static int ADVANCED_ENCOUNTER_SHOP_UNLOCKS;
-    public static int FINAL_BOSS_SHOP_UNLOCKS;
+    public static int GENERATOR_CRATES;
 
-    public static int GENERATOR_CACHES;
-
-    public static bool SEPARATE_COLORED_CACHES;
-    public static int WHITE_CACHES;
-    public static int GREEN_CACHES;
-    public static int ORANGE_CACHES;
-    public static int PINK_CACHES;
-    public static int PURPLE_CACHES;
-    public static int YELLOW_CACHES;
+    public static bool SEPARATE_COLORED_CRATES;
+    public static int WHITE_CRATES;
+    public static int GREEN_CRATES;
+    public static int ORANGE_CRATES;
+    public static int PINK_CRATES;
+    public static int PURPLE_CRATES;
+    public static int YELLOW_CRATES;
+    public static int TOTAL_CRATES;
 
     public static int FIBER_PLANTS;
     public static int GLAND_PLANTS;
 
-    public static int LOOT_CRATES;
+    public static int BOXES;
     
     internal static void SetFrom(Dictionary<string, object> slotData)
     {
@@ -49,33 +51,41 @@ public static class Options
         ADVANCED_ENCOUNTERS = Convert.ToInt32(slotData["AdvancedEncounters"]);
         FINAL_BOSSES = Convert.ToInt32(slotData["FinalBosses"]);
         
-        SMALL_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["SmallEncounterShopUnlocks"]);
-        ADVANCED_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["AdvancedEncounterShopUnlocks"]);
-        FINAL_BOSS_SHOP_UNLOCKS = Convert.ToInt32(slotData["FinalBossShopUnlocks"]);
+        // ENCOUNTERS_UNLOCK_SHOP_ITEMS = Convert.ToBoolean(slotData["EncountersUnlockShopItems"]);
+        // SMALL_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["SmallEncounterShopUnlocks"]);
+        // ADVANCED_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["AdvancedEncounterShopUnlocks"]);
+        // FINAL_BOSS_SHOP_UNLOCKS = Convert.ToInt32(slotData["FinalBossShopUnlocks"]);
         
-        GENERATOR_CACHES = Convert.ToInt32(slotData["GeneratorCaches"]);
-
-        SEPARATE_COLORED_CACHES = Convert.ToBoolean(slotData["SeparateColoredCaches"]);
-        WHITE_CACHES = Convert.ToInt32(slotData["WhiteCaches"]);
-        GREEN_CACHES = Convert.ToInt32(slotData["GreenCaches"]);
-        ORANGE_CACHES = Convert.ToInt32(slotData["OrangeCaches"]);
-        PINK_CACHES = Convert.ToInt32(slotData["PinkCaches"]);
-        PURPLE_CACHES = Convert.ToInt32(slotData["PurpleCaches"]);
-        YELLOW_CACHES = Convert.ToInt32(slotData["YellowCaches"]);
+        GENERATOR_CRATES = Convert.ToInt32(slotData["GeneratorCrates"]);
+        
+        SEPARATE_COLORED_CRATES = Convert.ToBoolean(slotData["SeparateColoredCrates"]);
+        if (SEPARATE_COLORED_CRATES)
+        {
+            WHITE_CRATES = Convert.ToInt32(slotData["WhiteCrates"]);
+            GREEN_CRATES = Convert.ToInt32(slotData["GreenCrates"]);
+            ORANGE_CRATES = Convert.ToInt32(slotData["OrangeCrates"]);
+            PINK_CRATES = Convert.ToInt32(slotData["PinkCrates"]);
+            PURPLE_CRATES = Convert.ToInt32(slotData["PurpleCrates"]);
+            YELLOW_CRATES = Convert.ToInt32(slotData["YellowCrates"]);
+        }
+        else
+        {
+            TOTAL_CRATES = Convert.ToInt32(slotData["TotalCrates"]);
+        }
         
         FIBER_PLANTS = Convert.ToInt32(slotData["FiberPlants"]);
         GLAND_PLANTS = Convert.ToInt32(slotData["GlandPlants"]);
         
-        LOOT_CRATES = Convert.ToInt32(slotData["LootCrates"]);
+        BOXES = Convert.ToInt32(slotData["Boxes"]);
         
         LocationHandler.Initialize();
         
-        // var fieldDict = typeof(Options)
-        //     .GetFields(BindingFlags.Static | BindingFlags.Public)
-        //     .ToDictionary(field => field.Name, field => field.GetValue(null));
-        //
-        // Plugin.LOGGER.LogInfo("Options:");
-        // foreach (var field in fieldDict)
-        //     Plugin.LOGGER.LogInfo($"  {field.Key}: {field.Value}");
+        var fieldDict = typeof(Options)
+            .GetFields(BindingFlags.Public | BindingFlags.Static)
+            .ToDictionary(x => x.Name, x => x.GetValue(null));
+        
+        Plugin.LOGGER.LogInfo("Options:");
+        foreach (var field in fieldDict)
+            Plugin.LOGGER.LogInfo($"  {field.Key}: {field.Value}");
     }
 }

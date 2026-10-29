@@ -1,6 +1,6 @@
 namespace PunkArchipelago;
 
-public static class HarmonyUtils
+public static class Utils
 {
     public static void DoNothing() {}
 }

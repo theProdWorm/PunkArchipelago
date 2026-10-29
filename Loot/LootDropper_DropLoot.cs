@@ -9,6 +9,12 @@ public class LootDropper_DropLoot
     private static void Prefix(LootDropper __instance)
     {
         Plugin.LOGGER.LogInfo($"DropLoot called on {__instance.name}");
+
+        if (!ConnectionHandler.IS_CONNECTED)
+        {
+            Plugin.LOGGER.LogInfo("Not connected to Archipelago server");
+            goto skip;
+        }
         
         var locationType = LocationHandler.GetLocationType(__instance.name);
         if (locationType == LocationHandler.LocationType.Invalid)
@@ -18,9 +24,12 @@ public class LootDropper_DropLoot
         if (remainingLocations <= 0)
             goto skip;
 
+        LocationHandler.CheckIncrementalLocation(locationType);
         return;
         
         skip:
-        HarmonyUtils.DoNothing();
+        Utils.DoNothing();
+        
+        Plugin.LOGGER.LogInfo("Skipping DropLoot");
     }
 }

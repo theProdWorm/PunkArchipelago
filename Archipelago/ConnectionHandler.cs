@@ -18,6 +18,8 @@ public static class ConnectionHandler
     private static ArchipelagoSession _SESSION;
 
     private static string _SEED;
+
+    public static bool IS_CONNECTED => _SESSION != null && _SESSION.Socket.Connected;
     
     public static async Task TryConnect()
     {
@@ -60,6 +62,7 @@ public static class ConnectionHandler
             // PacketHandler.Initialize(_SESSION);
 
             _SESSION.Socket.SocketClosed += OnDisconnected;
+            PacketHandler.Initialize(_SESSION);
             return;
         }
         
