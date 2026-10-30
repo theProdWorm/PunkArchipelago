@@ -59,28 +59,6 @@ public class Plugin : BaseUnityPlugin
     private void Update()
     {
         TabToNextField();
-
-        if (!Input.GetKeyDown(KeyCode.G))
-            return;
-        
-        var objects = FindObjectsByType<Object>(FindObjectsSortMode.None)
-            .Where(obj => obj is DamagableResource)
-            .Cast<DamagableResource>()
-            .ToDictionary(
-                obj => obj, 
-                obj => obj.gameObject.GetComponents<Object>().Select(c => c.GetType().Name));
-
-        foreach (var obj in objects)
-        {
-            string objName = obj.Key.name;
-            var components = obj.Value;
-            
-            string objString = $"{objName} has components:\n" + string.Join("\n", components);
-            LOGGER.LogInfo(objString);
-        }
-        //
-        // string objString = "All damageable objects:\n" + string.Join("\n", objects);
-        // LOGGER.LogInfo(objString);
     }
     
     private void TabToNextField()

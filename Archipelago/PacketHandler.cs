@@ -16,7 +16,16 @@ public static class PacketHandler
         _SESSION.Socket.PacketReceived += PacketReceived;
     }
 
-    public static void SendPacket(ArchipelagoPacketBase packet)
+    public static void CheckLocations(params long[] locations)
+    {
+        var packet = new LocationChecksPacket()
+        {
+            Locations = locations
+        };
+        SendPacket(packet);
+    }
+    
+    private static void SendPacket(ArchipelagoPacketBase packet)
     {
         _SESSION.Socket.SendPacket(packet);
     }
@@ -33,6 +42,11 @@ public static class PacketHandler
 
     private static void OnReceivedItems(ReceivedItemsPacket packet)
     {
-        Plugin.LOGGER.LogInfo($"Received items packet");
+        Plugin.LOGGER.LogInfo($"Received items packet, containing:");
+        foreach (var item in packet.Items)
+        {
+            string itemName = _SESSION.Items.GetItemName(item.Item);
+            Plugin.LOGGER.LogInfo($"  {itemName}");
+        }
     }
 }

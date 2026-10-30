@@ -21,7 +21,8 @@ public class LootDropper_Awake
     private static readonly AccessTools.StructFieldRef<DropTableItem, float> _probability =
         AccessTools.StructFieldRefAccess<DropTableItem, float>("probability");
     
-    private static void Prefix(LootDropper __instance)
+    [HarmonyPrefix]
+    private static void Awake(LootDropper __instance)
     {
         if (false)
         {

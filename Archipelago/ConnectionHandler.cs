@@ -63,6 +63,7 @@ public static class ConnectionHandler
 
             _SESSION.Socket.SocketClosed += OnDisconnected;
             PacketHandler.Initialize(_SESSION);
+            LocationHandler.Initialize(_SESSION);
             return;
         }
         

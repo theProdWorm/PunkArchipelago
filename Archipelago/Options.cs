@@ -21,10 +21,10 @@ public static class Options
     public static int ADVANCED_ENCOUNTERS;
     public static int FINAL_BOSSES;
 
-    // public static bool ENCOUNTERS_UNLOCK_SHOP_ITEMS;
-    // public static int SMALL_ENCOUNTER_SHOP_UNLOCKS;
-    // public static int ADVANCED_ENCOUNTER_SHOP_UNLOCKS;
-    // public static int FINAL_BOSS_SHOP_UNLOCKS;
+    public static bool ENCOUNTERS_UNLOCK_SHOP_ITEMS;
+    public static int SMALL_ENCOUNTER_SHOP_UNLOCKS;
+    public static int ADVANCED_ENCOUNTER_SHOP_UNLOCKS;
+    public static int FINAL_BOSS_SHOP_UNLOCKS;
     
     public static int GENERATOR_CRATES;
 
@@ -51,10 +51,10 @@ public static class Options
         ADVANCED_ENCOUNTERS = Convert.ToInt32(slotData["AdvancedEncounters"]);
         FINAL_BOSSES = Convert.ToInt32(slotData["FinalBosses"]);
         
-        // ENCOUNTERS_UNLOCK_SHOP_ITEMS = Convert.ToBoolean(slotData["EncountersUnlockShopItems"]);
-        // SMALL_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["SmallEncounterShopUnlocks"]);
-        // ADVANCED_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["AdvancedEncounterShopUnlocks"]);
-        // FINAL_BOSS_SHOP_UNLOCKS = Convert.ToInt32(slotData["FinalBossShopUnlocks"]);
+        ENCOUNTERS_UNLOCK_SHOP_ITEMS = Convert.ToBoolean(slotData["EncountersUnlockShopItems"]);
+        SMALL_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["SmallEncounterShopUnlocks"]);
+        ADVANCED_ENCOUNTER_SHOP_UNLOCKS = Convert.ToInt32(slotData["AdvancedEncounterShopUnlocks"]);
+        FINAL_BOSS_SHOP_UNLOCKS = Convert.ToInt32(slotData["FinalBossShopUnlocks"]);
         
         GENERATOR_CRATES = Convert.ToInt32(slotData["GeneratorCrates"]);
         
@@ -77,8 +77,6 @@ public static class Options
         GLAND_PLANTS = Convert.ToInt32(slotData["GlandPlants"]);
         
         BOXES = Convert.ToInt32(slotData["Boxes"]);
-        
-        LocationHandler.Initialize();
         
         var fieldDict = typeof(Options)
             .GetFields(BindingFlags.Public | BindingFlags.Static)
