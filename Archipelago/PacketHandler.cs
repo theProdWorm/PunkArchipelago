@@ -45,6 +45,8 @@ public static class PacketHandler
         Plugin.LOGGER.LogInfo($"Received items packet, containing:");
         foreach (var item in packet.Items)
         {
+            ItemHandler.CreateItem(item.Item, ItemHandler.GetGroup(item.Item));
+            
             string itemName = _SESSION.Items.GetItemName(item.Item);
             Plugin.LOGGER.LogInfo($"  {itemName}");
         }

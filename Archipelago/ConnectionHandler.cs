@@ -50,11 +50,11 @@ public static class ConnectionHandler
             
             if (_SESSION.RoomState.Seed.Equals(_SEED))
             {
-                ItemRegister.Update(_SESSION.Items.AllItemsReceived);
+                ItemHandler.Reinitialize(_SESSION.Items.AllItemsReceived);
             }
             else
             {
-                ItemRegister.Initialize(_SESSION.Items.AllItemsReceived);
+                ItemHandler.Initialize(_SESSION.Items.AllItemsReceived);
                 _SEED = _SESSION.RoomState.Seed;
             }
             

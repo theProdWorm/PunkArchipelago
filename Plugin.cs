@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using BepInEx;
 using BepInEx.Logging;
 using BepInEx.Unity.Mono;
@@ -19,6 +21,10 @@ namespace PunkArchipelago;
 [DefaultExecutionOrder(-1000)]
 public class Plugin : BaseUnityPlugin
 {
+    //
+    //  RunData.ingredientsEverOwned
+    //
+    
     internal static ManualLogSource LOGGER;
     
     private TMP_InputField[] _inputFields;
@@ -54,6 +60,43 @@ public class Plugin : BaseUnityPlugin
         
         var harmony = new Harmony("PunkArchipelago");
         harmony.PatchAll(Assembly.GetExecutingAssembly());
+    }
+
+    private void Start()
+    {
+        StringBuilder sb = new("\n");
+        
+        // var modules = ServiceLocator.Get<ModuleRegistry>().AllItems
+        //     .OrderBy(x => x.moduleType.displayName)
+        //     .ThenBy(x => x.displayName);
+        //
+        // foreach (var module in modules)
+        // {
+        //     if (string.IsNullOrEmpty(module.displayName) 
+        //         || module.moduleType.displayName == "GADGETS"
+        //         || module.moduleType.displayName == "WEAPONS"
+        //         || module.displayName == "Crawler")
+        //         continue;
+        //
+        //     string str = $"name: {module.displayName}";
+        //     str = StringUtils.Fill(str, 25);
+        //     str += $"id: {module.Id}";
+        //     
+        //     sb.AppendLine(str);
+        // }
+
+        // var consumables = ServiceLocator.Get<ConsumableRegistry>().AllItems;
+        //
+        // foreach (var consumable in consumables)
+        // {
+        //     string str = $"name: {consumable.name}";
+        //     str = StringUtils.Fill(str, 25);
+        //     str += $"id: {consumable.Id}";
+        //     
+        //     sb.AppendLine(str);
+        // }
+        //
+        // LOGGER.LogInfo(sb.ToString());
     }
     
     private void Update()

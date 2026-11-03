@@ -35,6 +35,9 @@
         <Reference Include="Punk.Main">
             <HintPath>lib\Punk.Main.dll</HintPath>
         </Reference>
+        <Reference Include="ServiceLocator">
+          <HintPath>lib\ServiceLocator.dll</HintPath>
+        </Reference>
         <Reference Include="Unity.TextMeshPro">
             <HintPath>lib\Unity.TextMeshPro.dll</HintPath>
         </Reference>
