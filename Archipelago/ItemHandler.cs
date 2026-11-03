@@ -102,7 +102,7 @@ public static class ItemHandler
             if (!_COLLECTED_ITEMS.TryAdd(item.ItemId, 1))
                 _COLLECTED_ITEMS[item.ItemId]++;
             
-            CreateItem(item.ItemId, GetGroup(item.ItemId));
+            HandleItem(item.ItemId);
         }
     }
 
@@ -129,7 +129,7 @@ public static class ItemHandler
         {
             for (int i = 0; i < item.Value; i++)
             {
-                CreateItem(item.Key, GetGroup(item.Key));
+                HandleItem(item.Key);
             }
         }
         
@@ -150,8 +150,9 @@ public static class ItemHandler
         }
     }
     
-    public static void CreateItem(long archipelagoId, ItemGroup group)
+    public static void HandleItem(long archipelagoId)
     {
+        var group = GetGroup(archipelagoId); 
         var itemType = (ItemLUT) archipelagoId;
         switch (group)
         {
@@ -165,7 +166,7 @@ public static class ItemHandler
                 CreateFiller(itemType);
                 break;
             default:
-                Plugin.LOGGER.LogError("Unknown ItemGroup: " + group);
+                Plugin.LOGGER.LogError("Invalid ItemGroup: " + group);
                 break;
         }
     }
