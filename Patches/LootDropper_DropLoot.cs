@@ -1,7 +1,7 @@
 using HarmonyLib;
 using PunkArchipelago.Archipelago;
 
-namespace PunkArchipelago.Loot;
+namespace PunkArchipelago.Patches;
 
 [HarmonyPatch(typeof(LootDropper), "DropLoot")]
 public class LootDropper_DropLoot

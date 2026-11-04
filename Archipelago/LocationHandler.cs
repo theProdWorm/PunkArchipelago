@@ -42,16 +42,16 @@ public static class LocationHandler
                 location => location.Key,
                 location => location.Value);
 
-        foreach (var location in _REMAINING_SHOP_LOCATIONS)
-        {
-            Plugin.LOGGER.LogInfo(location.Key);
-        }
-        
-        Plugin.LOGGER.LogInfo($"Total Locations: {_LOCATION_NAME_TO_ID.Count}");
-        int incrementalLocationCount = _REMAINING_INCREMENTAL_LOCATIONS.Aggregate(0, 
-            (total, current) => current.Value.Count + total);
-        Plugin.LOGGER.LogInfo($"Total Incremental Locations: {incrementalLocationCount}");
-        Plugin.LOGGER.LogInfo($"Total Shop Locations: {_REMAINING_SHOP_LOCATIONS.Count}");
+        // foreach (var location in _REMAINING_SHOP_LOCATIONS)
+        // {
+        //     Plugin.LOGGER.LogInfo(location.Key);
+        // }
+        //
+        // Plugin.LOGGER.LogInfo($"Total Locations: {_LOCATION_NAME_TO_ID.Count}");
+        // int incrementalLocationCount = _REMAINING_INCREMENTAL_LOCATIONS.Aggregate(0, 
+        //     (total, current) => current.Value.Count + total);
+        // Plugin.LOGGER.LogInfo($"Total Incremental Locations: {incrementalLocationCount}");
+        // Plugin.LOGGER.LogInfo($"Total Shop Locations: {_REMAINING_SHOP_LOCATIONS.Count}");
     }
 
     public static bool TryCheckLocation(string locationType)
@@ -84,7 +84,7 @@ public static class LocationHandler
                     return "Pink Crate";
                 if (unitName.Contains("Tech"))
                     return "Purple Crate";
-                if (unitName.Contains("Gold")) //Unsure
+                if (unitName.Contains("Money"))
                     return "Yellow Crate";
                 
                 return "White Crate";
@@ -95,7 +95,7 @@ public static class LocationHandler
         
         if (unitName.Contains("NippleCurved"))
             return "Fiber Plant";
-        if (unitName.Contains("Sage"))
+        if (unitName.Contains("Fruit Cactus"))
             return "Gland Plant";
         
         if (unitName.Contains("Small"))

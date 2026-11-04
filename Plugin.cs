@@ -31,6 +31,8 @@ public class Plugin : BaseUnityPlugin
     private int _inputFieldIndex;
 
     private UiManager _uiManagerInstance;
+
+    private bool _inMenu = true;
     
     private InputActionReference MoveUiAction
     {
@@ -60,45 +62,13 @@ public class Plugin : BaseUnityPlugin
         
         var harmony = new Harmony("PunkArchipelago");
         harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+        SceneManager.sceneLoaded += (scene, _) =>
+        {
+            _inMenu = scene.name == "MainMenu";
+        };
     }
 
-    private void Start()
-    {
-        StringBuilder sb = new("\n");
-        
-        // var modules = ServiceLocator.Get<ModuleRegistry>().AllItems
-        //     .OrderBy(x => x.moduleType.displayName)
-        //     .ThenBy(x => x.displayName);
-        //
-        // foreach (var module in modules)
-        // {
-        //     if (string.IsNullOrEmpty(module.displayName) 
-        //         || module.moduleType.displayName == "GADGETS"
-        //         || module.moduleType.displayName == "WEAPONS"
-        //         || module.displayName == "Crawler")
-        //         continue;
-        //
-        //     string str = $"name: {module.displayName}";
-        //     str = StringUtils.Fill(str, 25);
-        //     str += $"id: {module.Id}";
-        //     
-        //     sb.AppendLine(str);
-        // }
-
-        // var consumables = ServiceLocator.Get<ConsumableRegistry>().AllItems;
-        //
-        // foreach (var consumable in consumables)
-        // {
-        //     string str = $"name: {consumable.name}";
-        //     str = StringUtils.Fill(str, 25);
-        //     str += $"id: {consumable.Id}";
-        //     
-        //     sb.AppendLine(str);
-        // }
-        //
-        // LOGGER.LogInfo(sb.ToString());
-    }
-    
     private void Update()
     {
         TabToNextField();
@@ -152,10 +122,10 @@ public class Plugin : BaseUnityPlugin
 
         var deathLinkToggle = interactables.Find("Toggle").GetComponent<Toggle>();
         deathLinkToggle.onValueChanged.AddListener(isOn => ConnectionHandler.DEATH_LINK = isOn);
-        
-        ConnectionHandler.HOST = _inputFields[0].text;
+
+        ConnectionHandler.HOST = "localhost";//_inputFields[0].text;
         ConnectionHandler.PORT = _inputFields[1].text;
-        ConnectionHandler.SLOT = _inputFields[2].text;
+        ConnectionHandler.SLOT = "Prodworm";//_inputFields[2].text;
         ConnectionHandler.PASS = _inputFields[3].text;
         ConnectionHandler.DEATH_LINK = deathLinkToggle.isOn;
 

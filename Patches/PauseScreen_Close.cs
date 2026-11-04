@@ -1,7 +1,7 @@
 using HarmonyLib;
 using PunkArchipelago.Archipelago;
 
-namespace PunkArchipelago;
+namespace PunkArchipelago.Patches;
 
 [HarmonyPatch(typeof(PauseScreen), nameof(PauseScreen.Close))]
 public class PauseScreen_Close

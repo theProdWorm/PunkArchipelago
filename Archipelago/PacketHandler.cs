@@ -9,11 +9,24 @@ public static class PacketHandler
 {
     private static ArchipelagoSession _SESSION;
 
+    private static bool _GOAL_COMPLETED;
+    
     internal static void Initialize(ArchipelagoSession session)
     {
         _SESSION = session;
     
         _SESSION.Socket.PacketReceived += PacketReceived;
+        
+        _GOAL_COMPLETED = false;
+    }
+
+    public static void CompleteGoal()
+    {
+        var packet = new StatusUpdatePacket()
+        {
+            Status = ArchipelagoClientState.ClientGoal
+        };
+        SendPacket(packet);
     }
 
     public static void CheckLocations(params long[] locations)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.Enums;
@@ -50,12 +51,12 @@ public static class ConnectionHandler
             
             if (_SESSION.RoomState.Seed.Equals(_SEED))
             {
-                ItemHandler.Reinitialize(_SESSION.Items.AllItemsReceived);
+                ItemHandler.Reinitialize(_SESSION.Items.AllItemsReceived.ToArray());
             }
             else
             {
-                ItemHandler.Initialize(_SESSION.Items.AllItemsReceived);
                 _SEED = _SESSION.RoomState.Seed;
+                ItemHandler.Initialize(_SESSION.Items.AllItemsReceived.ToArray(), _SEED);
             }
             
             Options.SetFrom(success.SlotData);
@@ -77,6 +78,13 @@ public static class ConnectionHandler
         Plugin.LOGGER.LogError(errorMessage);
     }
 
+    public static void OnNewRun()
+    {
+        ItemHandler.Initialize(_SESSION.Items.AllItemsReceived.ToArray(), _SEED, true);
+    }
+    
+    
+    
     private static async Task Disconnect()
     {
         if (_SESSION is null)
